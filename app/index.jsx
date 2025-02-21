@@ -5,11 +5,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 import { useState } from "react";
-import ChartComponent from "./ChartComponent"
+import ChartComponent from "./ChartComponent1"
 import { MaterialIcons } from '@expo/vector-icons';
 import ContractImage from "../assets/images/img.png";
 import { useFonts } from "expo-font";
 import Map from "../assets/images/map.png"
+import { useNavigation } from '@react-navigation/native';
 import Post from "../assets/images/post.png"
 import Edit from "../assets/images/Edit.png"
 import Like from "../assets/images/like.png"
@@ -25,18 +26,18 @@ import add from "../assets/images/addicon.png"
 
 import Calendar from "../assets/images/calenders.png"
 import Svg, { Polygon } from "react-native-svg";
-
+import { useRouter } from "expo-router";
 
 import Bell from "../assets/images/bell.png";
 import { FontAwesome5 } from '@expo/vector-icons';
 
 const Welcome = () => {
   const [isPressed, setIsPressed] = useState(false);
-
+  const navigation = useNavigation();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { loading, isLogged } = useGlobalContext();
   const [activeTab, setActiveTab] = useState("farmer");
-
+  const router = useRouter(); // Initialize router
   // Load the Inter font using useFonts hook
   const [fontsLoaded] = useFonts({
     "Inter_400Regular": require("../assets/fonts/Inter-Regular.ttf"),
@@ -107,7 +108,7 @@ const Welcome = () => {
         <View className="flex-row flex-wrap justify-between -mt-3">
           <TouchableOpacity
             className="w-[48%]"
-            onPress={() => setActiveTab("farmer")}
+            onPress={() => router.push("/")}
           >
             <Text className="font-black text-[12px]">FARMER</Text>
             <View className={`h-1 rounded-lg ${activeTab === "farmer" ? "bg-green-900" : "bg-neutral-100"}`} />
@@ -115,10 +116,10 @@ const Welcome = () => {
 
           <TouchableOpacity
             className="w-[48%]"
-            onPress={() => setActiveTab("admin")}
+            onPress={() => router.push("/contract_admin")} // Use the correct page path
           >
             <Text className="font-black text-[12px]">CONTRACT ADMIN</Text>
-            <View className={`h-1 rounded-lg ${activeTab === "admin" ? "bg-green-900" : "bg-neutral-100"}`} />
+            <View className={`h-1 rounded-lg bg-neutral-100`} />
           </TouchableOpacity>
         </View>
 
@@ -162,15 +163,16 @@ const Welcome = () => {
             <Text className="ml-2 text-[12px] font-bold">4.3 (355)</Text>
           </View>
         </View>
-        <View className="flex mt-5 mb-5">
-          <Text className="text-[7px] leading-[10px] font-bold">
-            Quality Assurance
-          </Text>
+        <View className="mt-5 mb-5">
           <Text className="text-[7px] leading-[10px] font-semibold">
-            , assist farmers mobilize resources and market assurance. We are development partners and also offtake partners for goat farmers.
+            <Text className="font-bold">Quality Assurance,</Text>
+            {" assit farmers mobilize resources and market assurance. We are development partners and also offtake partners for goat farmers."}
           </Text>
-
         </View>
+
+
+
+
         <View className="mb-3">
           <Text>SECTION####</Text>
         </View>
@@ -248,10 +250,13 @@ const Welcome = () => {
             </View>
 
             {/* Chart Component Container */}
-            <View style={{ width: '100%', height: 230, marginTop: 20 }}> {/* Add fixed height */}
-              <ChartComponent />
+            <View style={{ width: '100%', height: 220, marginTop: 0 }}>
+              <ChartComponent style={{ flex: 1, height: 200 }} />
             </View>
+
+
           </View>
+
 
         </View>
         <View className="mt-4 mb-4">
